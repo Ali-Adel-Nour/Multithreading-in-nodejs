@@ -1,7 +1,9 @@
 const {Worker,workerData} = require('worker_threads')
 
-const obj = workerData
+const port = workerData.port
 
-obj.name = "Ahmed"
+port.postMessage("some text for testing")
 
-console.log(obj)
+port.on("message",(msg) => {
+  console.log("Worker recevied",msg)
+})

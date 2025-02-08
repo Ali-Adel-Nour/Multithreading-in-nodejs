@@ -15,20 +15,29 @@ const {Worker,MessageChannel} = require ("worker_threads");
 
 // console.log(a)
 
-const channel =new MessageChannel()
+ //const channel =new MessageChannel()
 
-const port1 = channel.port1
+// const port1 = channel.port1
 
-const port2 = channel.port2
+// const port2 = channel.port2
 
-port1.postMessage({name:"Ali"})
-port2.postMessage({name:"Alaa"})
+// port1.postMessage({name:"Ali"})
+// port2.postMessage({name:"Alaa"})
 
-/port1.on("message",(msg) => {
-  console.log(`Message received from port 1:`,msg)
-})
-port2.on("message", (msg) => {
-  console.log(`Message received from port 2`,msg)
-})
+// /port1.on("message",(msg) => {
+//   console.log(`Message received from port 1:`,msg)
+// })
+// port2.on("message", (msg) => {
+//   console.log(`Message received from port 2`,msg)
+// })
 
 //console.log(channel)
+
+
+/* Communication between 2 workers threads   */
+
+const {port1, port2} = new MessageChannel()
+
+const thread1 = new Worker("./calc2.js",{workerData:{port:port1},transferList:[port1]})
+const thread2 = new Worker("./calc2.js",{workerData:{port:port2},transferList:[port2]})
+
