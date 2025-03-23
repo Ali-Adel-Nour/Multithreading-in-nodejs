@@ -1,7 +1,7 @@
 // Controllers
 const User = require("./controllers/user");
-const generatePrimes = require("../lib/prime-genrator.js");
 const {performance } = require("perf_hooks");
+const {Worker} = require("worker_threads");
 
 module.exports = (server) => {
   // ------------------------------------------------ //
@@ -33,12 +33,17 @@ module.exports = (server) => {
       startingNumber = Number(startingNumber);
 
     }
-   const primes = generatePrimes(count, startingNumber,{format:true})
 
-    res.json({
-      primes,
-      time: ((performance.now() - start) / 1000).toFixed(2),
+    const worker = new Worker("./lib/calc.js",{workerData:{count,start:startingNumber}} )
 
-    });
+    worker.on("message", (primes) => {
+      res.json({
+        primes,
+        time: ((performance.now() - start) / 1000).toFixed(2),
+
+      });
+    })
+
+
   });
 };
