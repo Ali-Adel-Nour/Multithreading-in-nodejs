@@ -1,5 +1,7 @@
 // Controllers
 const User = require("./controllers/user");
+const generatePrimes = require("../lib/prime-genrator.js");
+const {performance } = require("perf_hooks");
 
 module.exports = (server) => {
   // ------------------------------------------------ //
@@ -23,9 +25,20 @@ module.exports = (server) => {
   // ------------------------------------------------ //
 
   server.route("get", "/api/primes", (req, res) => {
+    const count = Number(req.params.get("count"));
+   let startingNumber = BigInt(req.params.get("start"));
+    const start = performance.now()
+
+    if(startingNumber < BigInt(Number.MAX_SAFE_INTEGER)){
+      startingNumber = Number(startingNumber);
+
+    }
+   const primes = generatePrimes(count, startingNumber,{format:true})
+
     res.json({
-      primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29],
-      time: 0.21,
+      primes,
+      time: ((performance.now() - start) / 1000).toFixed(2),
+
     });
   });
 };
