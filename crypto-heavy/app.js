@@ -11,8 +11,8 @@ const { performance } = require("perf_hooks");
 const THREADS = 2;
 let completed = 0;
 let sum = 0;
-const count = 10_00_000;
-const workerFileName = "./calc-crypto.js";
+const count = 10_000_000;
+const workerFileName = "./calc-crypto.batch.js";
 
 console.log(`Running with ${workerFileName}...`);
 
