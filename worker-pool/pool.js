@@ -1,3 +1,4 @@
+const path = require("path");
 const { Worker } = require("worker_threads");
 
 class Pool {
@@ -14,7 +15,7 @@ class Pool {
   }
 
   spawnThread() {
-    const worker = new Worker("./calc.js");
+    const worker = new Worker(path.join(__dirname, "./calc.js"));
 
     // When we get a message from a worker, it means that it has finished its task
     worker.on("message", (result) => {
