@@ -6,10 +6,35 @@ const pool = new Pool(numWorkers);
 
 let result = [];
 let tasksDone = 0;
-const totalTasks = 200_000;
+const totalTasks = 2000
 const start = performance.now();
 
 for (let i = 0; i < totalTasks; i++) {
+  if (i % 5 ===0){
+
+  }else{
+
+
+      pool.submit(
+    "factorial",
+    {
+      n:BigInt(i)
+    },
+    (factorialResult) => {
+
+     console.log(`Factorial of ${i} is ${factorialResult}`);
+      tasksDone++;
+
+    
+
+      if (tasksDone === totalTasks) {
+        console.log(`Time taken: ${performance.now() - start}ms`);
+        console.log(result.sort());
+        process.exit(0);
+      }
+    }
+  );
+  }
   pool.submit(
     "generatePrimes",
     {
