@@ -4,7 +4,7 @@ const {Buffer} = require("buffer");
 const number = Buffer.from(new SharedArrayBuffer(4)); 
 
 
-const THREADS = 5;
+const THREADS = 8;
 let completed = 0;
 
 console.log("Original data:", number);
